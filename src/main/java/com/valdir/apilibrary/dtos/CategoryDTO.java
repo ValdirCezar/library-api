@@ -2,6 +2,9 @@ package com.valdir.apilibrary.dtos;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.valdir.apilibrary.domain.Category;
 
 public class CategoryDTO implements Serializable {
@@ -9,6 +12,9 @@ public class CategoryDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	
+	@NotNull(message = "O campo nome é obrigatório")
+	@Size(min = 4, max = 40, message = "Tamanho minímo é 4 caracteres e máximo 40 caracteres")
 	private String name;
 
 	public CategoryDTO() {

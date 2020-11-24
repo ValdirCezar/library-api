@@ -25,6 +25,13 @@ public class CategoryService {
 		return obj.orElse(null);
 	}
 	
+	public CategoryDTO create(CategoryDTO obj) {
+		Category newObj = new Category(null, obj.getName());
+		repository.save(newObj);
+		obj = fromDTO(newObj);
+		return obj;
+	}
+	
 	public CategoryDTO fromDTO(Category obj) {
 		return new CategoryDTO(obj);
 	}

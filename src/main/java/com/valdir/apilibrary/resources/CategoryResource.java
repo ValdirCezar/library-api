@@ -1,14 +1,20 @@
 package com.valdir.apilibrary.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.valdir.apilibrary.domain.Category;
 import com.valdir.apilibrary.dtos.CategoryDTO;
@@ -44,6 +50,17 @@ public class CategoryResource {
 	public ResponseEntity<Category> findById(@PathVariable Integer id) {
 		Category obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@ApiOperation(value = "return a new CategoryDTO")
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "created")
+	})
+	@PostMapping
+	public ResponseEntity<CategoryDTO> create(@Valid @RequestBody CategoryDTO objDTO) {
+		CategoryDTO newObj = service.create(objDTO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objDTO.getId()).toUri();
+		return ResponseEntity.created(uri).body(newObj);
 	}
 
 }
