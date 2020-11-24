@@ -27,11 +27,10 @@ public class Category implements Serializable {
 		super();
 	}
 
-	public Category(Integer id, String name, List<Book> books) {
+	public Category(Integer id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.books = books;
 	}
 
 	public Integer getId() {
