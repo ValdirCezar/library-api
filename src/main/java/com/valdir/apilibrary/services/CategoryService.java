@@ -32,6 +32,11 @@ public class CategoryService {
 		return obj;
 	}
 	
+	public Category updateAll(CategoryDTO objDto) {
+		Category newObj = new Category(objDto.getId(), objDto.getName());
+		return repository.save(newObj);
+	}
+	
 	public CategoryDTO fromDTO(Category obj) {
 		return new CategoryDTO(obj);
 	}

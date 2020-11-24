@@ -9,8 +9,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,6 +63,30 @@ public class CategoryResource {
 		CategoryDTO newObj = service.create(objDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(newObj);
+	}
+	
+	@ApiOperation(value = "return a PUT from Category")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Success method return")
+	})
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<CategoryDTO> updateAll(@Valid @PathVariable Integer id, @RequestBody CategoryDTO objDto) {
+		objDto.setId(id);
+		Category newObj = service.updateAll(objDto);
+		objDto = service.fromDTO(newObj);
+		return ResponseEntity.ok().body(objDto);
+	}
+	
+	@ApiOperation(value = "return a PATCH from Category")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Success method return")
+	})
+	@PatchMapping(value = "/{id}")
+	public ResponseEntity<CategoryDTO> update(@Valid @PathVariable Integer id, @RequestBody CategoryDTO objDto) {
+		objDto.setId(id);
+		Category newObj = service.updateAll(objDto);
+		objDto = service.fromDTO(newObj);
+		return ResponseEntity.ok().body(objDto);
 	}
 
 }
