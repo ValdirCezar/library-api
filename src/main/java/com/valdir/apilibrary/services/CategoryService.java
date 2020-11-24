@@ -3,6 +3,7 @@ package com.valdir.apilibrary.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,14 @@ public class CategoryService {
 	public Category updateAll(CategoryDTO objDto) {
 		Category newObj = new Category(objDto.getId(), objDto.getName());
 		return repository.save(newObj);
+	}
+	
+	public void deleteById(Integer id) {
+		try {
+			repository.deleteById(id);
+		} catch (Exception e) {
+			throw new NotYetImplementedException("Méthod yet not implemented");
+		}
 	}
 	
 	public CategoryDTO fromDTO(Category obj) {

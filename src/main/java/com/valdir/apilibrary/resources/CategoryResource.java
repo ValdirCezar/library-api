@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,7 +75,7 @@ public class CategoryResource {
 		objDto.setId(id);
 		Category newObj = service.updateAll(objDto);
 		objDto = service.fromDTO(newObj);
-		return ResponseEntity.ok().body(objDto);
+		return ResponseEntity.ok().build();
 	}
 	
 	@ApiOperation(value = "return a PATCH from Category")
@@ -86,7 +87,17 @@ public class CategoryResource {
 		objDto.setId(id);
 		Category newObj = service.updateAll(objDto);
 		objDto = service.fromDTO(newObj);
-		return ResponseEntity.ok().body(objDto);
+		return ResponseEntity.ok().build();
+	}
+	
+	@ApiOperation(value = "return a DELETE from Category")
+	@ApiResponses(value = {
+			@ApiResponse(code = 204, message = "No content method return")
+	})
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
+		service.deleteById(id);
+		return ResponseEntity.noContent().build();
 	}
 
 }
