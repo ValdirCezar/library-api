@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Book implements Serializable {
 
@@ -22,6 +24,7 @@ public class Book implements Serializable {
 	private Integer id;
 	private String title;
 
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "BOOK_CATEGORY",
 			joinColumns = @JoinColumn(name = "book_id"),
