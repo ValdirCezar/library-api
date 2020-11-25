@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,6 +30,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = "/api/categories")
+@CrossOrigin("*")
 public class CategoryResource {
 	
 	@Autowired
@@ -71,7 +73,7 @@ public class CategoryResource {
 			@ApiResponse(code = 200, message = "Success method return")
 	})
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoryDTO> updateAll(@Valid @PathVariable Integer id, @RequestBody CategoryDTO objDto) {
+	public ResponseEntity<CategoryDTO> updateAll(@PathVariable Integer id, @Valid @RequestBody CategoryDTO objDto) {
 		objDto.setId(id);
 		Category newObj = service.updateAll(objDto);
 		objDto = service.fromDTO(newObj);
@@ -83,7 +85,7 @@ public class CategoryResource {
 			@ApiResponse(code = 200, message = "Success method return")
 	})
 	@PatchMapping(value = "/{id}")
-	public ResponseEntity<CategoryDTO> update(@Valid @PathVariable Integer id, @RequestBody CategoryDTO objDto) {
+	public ResponseEntity<CategoryDTO> update(@PathVariable Integer id, @Valid @RequestBody CategoryDTO objDto) {
 		objDto.setId(id);
 		Category newObj = service.updateAll(objDto);
 		objDto = service.fromDTO(newObj);
