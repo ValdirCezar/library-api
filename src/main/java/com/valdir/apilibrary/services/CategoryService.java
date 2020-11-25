@@ -10,6 +10,7 @@ import com.valdir.apilibrary.domain.Category;
 import com.valdir.apilibrary.dtos.CategoryDTO;
 import com.valdir.apilibrary.repositories.CategoryRepository;
 import com.valdir.apilibrary.services.exceptions.DataIntegrityViolationException;
+import com.valdir.apilibrary.services.exceptions.ObjectNotFoundExcpetion;
 
 @Service
 public class CategoryService {
@@ -23,7 +24,8 @@ public class CategoryService {
 
 	public Category findById(Integer id) {
 		Optional<Category> obj = repository.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFoundExcpetion(
+				"Object not found! Id: " + id + ", Type: " + CategoryService.class.getName()));
 	}
 
 	public CategoryDTO create(CategoryDTO obj) {
@@ -40,7 +42,7 @@ public class CategoryService {
 
 	public void deleteById(Integer id) {
 		repository.findById(id);
-		
+
 		try {
 			repository.deleteById(id);
 		} catch (org.springframework.dao.DataIntegrityViolationException e) {
