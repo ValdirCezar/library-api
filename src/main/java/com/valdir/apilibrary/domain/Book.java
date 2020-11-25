@@ -26,6 +26,7 @@ public class Book implements Serializable {
 
 	@JsonIgnore
 	@ManyToMany
+	@JoinColumn(name = "category")
 	@JoinTable(name = "BOOK_CATEGORY",
 			joinColumns = @JoinColumn(name = "book_id"),
 			inverseJoinColumns = @JoinColumn(name = "category_id"))

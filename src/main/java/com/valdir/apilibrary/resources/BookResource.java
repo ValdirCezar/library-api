@@ -1,13 +1,17 @@
 package com.valdir.apilibrary.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.valdir.apilibrary.domain.Book;
+import com.valdir.apilibrary.dtos.BookDTO;
 import com.valdir.apilibrary.services.BookService;
 
 import io.swagger.annotations.ApiOperation;
@@ -36,13 +41,24 @@ public class BookResource {
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "created method return")
 	})
-	@PostMapping(value = "/{id}/books")
-	public ResponseEntity<Book> insert(@PathVariable Integer id, @RequestBody Book obj) {
-		obj = service.insert(id, obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+	@PostMapping(value = "/{id}")
+	public ResponseEntity<BookDTO> insert(@PathVariable Integer id, @Valid @RequestBody BookDTO obj) {
+		Book newObj = service.insert(id, obj);
+		obj = new BookDTO(newObj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);
 	}
 	
 	
+	@ApiOperation(value = "return a list of Books")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Success method return")
+	} )
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<List<BookDTO>> findAll(@PathVariable Integer id) {
+		List<Book> list = service.findAllByCategory(id);
+		List<BookDTO> listDTO = list.stream().map(obj -> new BookDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
 	
 }
