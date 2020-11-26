@@ -2,6 +2,7 @@ package com.valdir.apilibrary.dtos;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -17,6 +18,7 @@ public class BookDTO implements Serializable {
 	@Size(min = 4, max = 40, message = "Tamanho minímo é 4 caracteres e máximo 40 caracteres")
 	private String title;
 
+	@Column(length = 2000000)
 	private String description;
 
 	public BookDTO() {
