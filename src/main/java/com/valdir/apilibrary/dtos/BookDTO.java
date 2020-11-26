@@ -12,10 +12,12 @@ public class BookDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	
+
 	@NotNull(message = "O campo nome é obrigatório")
 	@Size(min = 4, max = 40, message = "Tamanho minímo é 4 caracteres e máximo 40 caracteres")
 	private String title;
+
+	private String description;
 
 	public BookDTO() {
 		super();
@@ -25,6 +27,7 @@ public class BookDTO implements Serializable {
 		super();
 		this.id = obj.getId();
 		this.title = obj.getTitle();
+		this.description = obj.getDescription();
 	}
 
 	public Integer getId() {
@@ -41,6 +44,14 @@ public class BookDTO implements Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override

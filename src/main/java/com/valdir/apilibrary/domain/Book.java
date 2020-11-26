@@ -18,28 +18,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Book implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String title;
+	private String description;
 
 	@JsonIgnore
 	@ManyToMany
 	@JoinColumn(name = "category")
-	@JoinTable(name = "BOOK_CATEGORY",
-			joinColumns = @JoinColumn(name = "book_id"),
-			inverseJoinColumns = @JoinColumn(name = "category_id"))
+	@JoinTable(name = "BOOK_CATEGORY", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private List<Category> categories = new ArrayList<>();
 
 	public Book() {
 		super();
 	}
 
-	public Book(Integer id, String title) {
+	public Book(Integer id, String title, String description) {
 		super();
 		this.id = id;
 		this.title = title;
+		this.description = description;
 	}
 
 	public Integer getId() {
@@ -64,6 +64,14 @@ public class Book implements Serializable {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override

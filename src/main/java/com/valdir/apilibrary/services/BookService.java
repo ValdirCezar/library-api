@@ -24,7 +24,7 @@ public class BookService {
 
 	public Book insert(Integer id, BookDTO obj) {
 		Category category = categoryService.findById(id);
-		Book newObj = new Book(null, obj.getTitle());
+		Book newObj = new Book(null, obj.getTitle(), obj.getDescription());
 		newObj.getCategories().add(category);
 		category.getBooks().add(newObj);
 		return repository.save(newObj);
@@ -46,5 +46,13 @@ public class BookService {
 		} catch (DataIntegrityViolationException e) {
 			throw new com.valdir.apilibrary.services.exceptions.DataIntegrityViolationException("Error to delete Book");
 		}
+	}
+	
+	public Book update(Integer id, BookDTO obj) {
+		obj.setId(id);
+		repository.findById(obj.getId());
+		Book newObj = new Book(obj.getId(), obj.getTitle(), obj.getDescription());
+		repository.save(newObj);
+		return newObj;
 	}
 }
