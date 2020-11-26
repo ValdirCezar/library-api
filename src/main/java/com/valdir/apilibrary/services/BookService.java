@@ -1,6 +1,7 @@
 package com.valdir.apilibrary.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.valdir.apilibrary.domain.Book;
 import com.valdir.apilibrary.domain.Category;
 import com.valdir.apilibrary.dtos.BookDTO;
 import com.valdir.apilibrary.repositories.BookRepository;
+import com.valdir.apilibrary.services.exceptions.ObjectNotFoundExcpetion;
 
 @Service
 public class BookService {
@@ -29,5 +31,11 @@ public class BookService {
 
 	public List<Book> findAllByCategory(Integer id) {
 		return repository.findByCategories(categoryService.findById(id));
+	}
+	
+	public Book findById(Integer id) {
+		Optional<Book> obj = repository.findById(id);
+		return obj.orElseThrow(() -> new ObjectNotFoundExcpetion(
+				"Object not found! Id: " + id + ", Type: " + Book.class.getName()));
 	}
 }

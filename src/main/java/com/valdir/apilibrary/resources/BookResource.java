@@ -61,4 +61,14 @@ public class BookResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	@ApiOperation(value = "return a book by id")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Success method")
+	})
+	@GetMapping(value = "/books/{id}")
+	public ResponseEntity<BookDTO> findById(@PathVariable Integer id) {
+		BookDTO obj = new BookDTO(service.findById(id));
+		return ResponseEntity.ok().body(obj);
+	}
+	
 }
