@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.valdir.apilibrary.domain.Book;
@@ -37,5 +38,13 @@ public class BookService {
 		Optional<Book> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundExcpetion(
 				"Object not found! Id: " + id + ", Type: " + Book.class.getName()));
+	}
+	
+	public void deleteById(Integer id) {
+		try {
+			repository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new com.valdir.apilibrary.services.exceptions.DataIntegrityViolationException("Error to delete Book");
+		}
 	}
 }
