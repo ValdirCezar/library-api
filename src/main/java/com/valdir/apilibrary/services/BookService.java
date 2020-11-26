@@ -11,6 +11,7 @@ import com.valdir.apilibrary.domain.Book;
 import com.valdir.apilibrary.domain.Category;
 import com.valdir.apilibrary.dtos.BookDTO;
 import com.valdir.apilibrary.repositories.BookRepository;
+import com.valdir.apilibrary.repositories.CategoryRepository;
 import com.valdir.apilibrary.services.exceptions.ObjectNotFoundExcpetion;
 
 @Service
@@ -21,6 +22,8 @@ public class BookService {
 
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private CategoryRepository categoryRepo;
 
 	public Book insert(Integer id, BookDTO obj) {
 		Category category = categoryService.findById(id);
@@ -50,9 +53,9 @@ public class BookService {
 	
 	public Book update(Integer id, BookDTO obj) {
 		obj.setId(id);
-		repository.findById(obj.getId());
 		Book newObj = new Book(obj.getId(), obj.getTitle(), obj.getDescription());
-		repository.save(newObj);
-		return newObj;
+		Category cat = categoryRepo.findByBooks(newObj);
+		newObj.getCategories().add(cat);
+		return repository.save(newObj);
 	}
 }
